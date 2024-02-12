@@ -7,7 +7,7 @@ height = 720
 
 x = 0
 y = 0
-claw = 1;
+claw = 1
 
 cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -17,6 +17,10 @@ Arduino_Data = serial.Serial("com3",115200)
 
 hands = hand_finder.findHands()
 black = (0,0,0)
+
+def proximity(loc1,loc2):
+    pass
+
 while True:
     _, frame = cam.read()
     frame = cv2.flip(frame,1)
@@ -25,21 +29,31 @@ while True:
     if Landmarks != []:     
         for handLocation,hand in zip(Landmarks,HandType):
             if hand == 'Right':
-                location = handLocation[8]
+                IndexTip = handLocation[8]
                 tumb= handLocation[4]
 
-                if location[0] <= (width//2) - width//5: # some breathing room, so that its easier to control, here 50 pixels in total
+                #for LR motor ____________
+                if IndexTip[0] <= (width//2) - width//5: # some breathing room, so that its easier to control
                     x = -1
-                elif location[0] >= width//2 + width//5:
+                elif IndexTip[0] >= width//2 + width//5:
                     x = 1
                 else:
                     x = 0
-                if location[1] <= height//2 - height//5:
+                #_________________________
+                # for Pan motor __________
+                if IndexTip[1] <= height//2 - height//5: # same logic as the LR motor
                     y = 1
-                elif location[1] >= height//2 + height//5:
+                elif IndexTip[1] >= height//2 + height//5:
                     y = -1
                 else:
                     y = 0
+                #_________________________
+                # for the Claw motor
+                if proximity(IndexTip, tumb):
+                    claw = 0
+                else:
+                    claw = 1
+                
                 print(x,y,claw)
             cv2.circle(frame,handLocation[8],20,black,3)
             cv2.circle(frame,handLocation[4],20,black,3)
