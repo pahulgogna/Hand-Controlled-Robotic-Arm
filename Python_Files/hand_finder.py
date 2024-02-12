@@ -20,7 +20,7 @@ class findHands:
                 handsType.append(handType)
                 myhand = []
                 for landmarks in handLandmarks.landmark:
-                    myhand.append((int(landmarks.x*self.width),int(landmarks.y*self.height)))
+                    myhand.append((int(landmarks.x*self.width),int(landmarks.y*self.height),int(landmarks.z*1000)))
 
                 MyHands.append(myhand)
         return MyHands, handsType

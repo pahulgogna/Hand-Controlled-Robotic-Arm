@@ -22,16 +22,42 @@ int Grip = 1; // = 0,1
 
 void setup() {
   // initializing the serial connection
-  Serial.begin(115200)
+  Serial.begin(115200);
   // attaching all the servos
   GripServo.attach(GPin);
   AngleServo.attach(APin);
   PanServo.attach(PPin);
   LRServo.attach(LRPin);
-  // GripServo.write(0);
+
+  for(int i = 0; i <= 90; i = i + 2){
+     PanServo.write(i);
+     delay(20);
+   }
+   for(int i = 50; i <= 90; i = i + 2){
+     LRServo.write(i);
+     delay(20);
+   }
+
+  GripServo.write(0);
+
+  for(int i = 0; i < 180; i = i++){
+     GripServo.write(i);
+     delay(5);
+   }
+  for(int i = 180; i > 0; i = i--){
+     GripServo.write(i);
+     delay(5);
+   }
 }
 
 void loop() {
+
+  while(Serial.available() == 0){
+  }
+
+  LR = Serial.readStringUntil(':').toInt();
+  Pan = Serial.readStringUntil(':').toInt();
+  Grip = Serial.readStringUntil('\r').toInt();
 
   if(LR != 0){
       if(LR == 1){
