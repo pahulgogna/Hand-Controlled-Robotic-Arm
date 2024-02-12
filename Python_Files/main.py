@@ -1,6 +1,7 @@
 import serial
 import cv2
 import hand_finder
+import math
 
 width = 1280
 height = 720
@@ -18,8 +19,13 @@ Arduino_Data = serial.Serial("com3",115200)
 hands = hand_finder.findHands()
 black = (0,0,0)
 
-def proximity(loc1,loc2):
-    pass
+def proximity(loc1,loc2):  # checks if the two coordinates are closer than a minimum value
+    radius = 80
+    if math.copysign(loc1[0] - loc2[0],1) <= radius:
+        if math.copysign(loc1[1] - loc2[1],1) <= radius:
+            return True
+        return False
+    return False
 
 while True:
     _, frame = cam.read()
@@ -55,8 +61,8 @@ while True:
                     claw = 1
                 
                 print(x,y,claw)
-            cv2.circle(frame,handLocation[8],20,black,3)
-            cv2.circle(frame,handLocation[4],20,black,3)
+            # cv2.circle(frame,handLocation[8],20,black,3)
+            # cv2.circle(frame,handLocation[4],20,black,3)
     cv2.imshow('screen1', frame)
     cv2.moveWindow('screen1', 0,0)
 
