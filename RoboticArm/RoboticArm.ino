@@ -29,28 +29,31 @@ void setup() {
   PanServo.attach(PPin);
   LRServo.attach(LRPin);
 
-  for(int i = 0; i <= 90; i = i + 2){
-     PanServo.write(i);
-     delay(20);
-   }
-   for(int i = 50; i <= 90; i = i + 2){
-     LRServo.write(i);
-     delay(20);
-   }
+  // for(int i = 0; i <= 90; i = i + 2){
+  //    PanServo.write(i);
 
-  GripServo.write(0);
+  //  }
+  //  for(int i = 50; i <= 90; i = i + 2){
+  //    LRServo.write(i);
 
-  for(int i = 0; i < 180; i = i++){
-     GripServo.write(i);
-     delay(5);
-   }
-  for(int i = 180; i > 0; i = i--){
-     GripServo.write(i);
-     delay(5);
-   }
+  //  }
+
+  
+  // GripServo.write(0);
+
+  // for(int i = 0; i < 180; i = i++){
+  //    GripServo.write(i);
+ 
+  //  }
+  // for(int i = 180; i > 0; i = i--){
+  //    GripServo.write(i);
+ 
+  //  }
 }
 
 void loop() {
+
+  pinMode(13, OUTPUT);
 
   while(Serial.available() == 0){
   }
@@ -76,7 +79,12 @@ void loop() {
     PanServo.write(PVal);
     AngleServo.write(PVal);
   }
-
-  int Grip_Val = map(Grip,0,1,0,180);
-  GripServo.write(Grip_Val);
+  if(Grip == 0){
+  GripServo.write(180);
+  digitalWrite(LED_BUILTIN, HIGH);
+  }
+  if(Grip == 1){
+    digitalWrite(LED_BUILTIN, LOW);
+    GripServo.write(0);
+  }
 }

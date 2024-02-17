@@ -14,7 +14,7 @@ cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-Arduino_Data = serial.Serial("com3",115200)
+Arduino_Data = serial.Serial("com7",115200)
 
 hands = hand_finder.findHands()
 black = (0,0,0)
@@ -68,7 +68,7 @@ while True:
 
                 print(data)
 
-                # Arduino_Data.write(data.encode())  # uncomment when arduino is connected.
+                Arduino_Data.write(data.encode())  # uncomment when arduino is connected.
 
             # cv2.circle(frame,handLocation[8],20,black,3)
             # cv2.circle(frame,handLocation[4],20,black,3)
