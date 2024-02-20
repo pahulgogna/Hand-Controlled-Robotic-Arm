@@ -14,7 +14,7 @@ cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-Arduino_Data = serial.Serial("com7",115200)
+Arduino_Data = serial.Serial("com9",115200)
 
 hands = hand_finder.findHands()
 black = (0,0,0)

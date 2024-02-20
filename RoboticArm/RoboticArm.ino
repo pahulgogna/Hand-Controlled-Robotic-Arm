@@ -18,7 +18,7 @@ int LRVal=90;
 
 int LR = 0; // = -1,0,1
 int Pan = 0; // = -1,0,1
-int Grip = 1; // = 0,1
+int Grip = 0; // = 0,1
 
 void setup() {
   // initializing the serial connection
@@ -29,26 +29,16 @@ void setup() {
   PanServo.attach(PPin);
   LRServo.attach(LRPin);
 
-  // for(int i = 0; i <= 90; i = i + 2){
-  //    PanServo.write(i);
-
-  //  }
-  //  for(int i = 50; i <= 90; i = i + 2){
-  //    LRServo.write(i);
-
-  //  }
+  LRServo.write(LRVal);
+  delay(200);
+  PanServo.write(PVal);
+  AngleServo.write(PVal);
 
   
-  // GripServo.write(0);
+  GripServo.write(180);
 
-  // for(int i = 0; i < 180; i = i++){
-  //    GripServo.write(i);
- 
-  //  }
-  // for(int i = 180; i > 0; i = i--){
-  //    GripServo.write(i);
- 
-  //  }
+  delay(1000);
+  GripServo.write(90);
 }
 
 void loop() {
@@ -64,17 +54,17 @@ void loop() {
 
   if(LR != 0){
       if(LR == 1){
-        LRVal = LRVal + speed;
+        LRVal = LRVal - speed;
       }
-      else LRVal = LRVal - speed;
+      else LRVal = LRVal + speed;
       LRVal = constrain(LRVal,0,180);
       LRServo.write(LRVal);
   }
   if(Pan != 0){
     if(Pan == 1){
-        PVal = PVal + speed;
+        PVal = PVal - speed;
       }
-      else PVal = PVal - speed;
+      else PVal = PVal + speed;
     PVal = constrain(PVal,0,180);
     PanServo.write(PVal);
     AngleServo.write(PVal);
@@ -85,6 +75,6 @@ void loop() {
   }
   if(Grip == 1){
     digitalWrite(LED_BUILTIN, LOW);
-    GripServo.write(0);
+    GripServo.write(90);
   }
 }
